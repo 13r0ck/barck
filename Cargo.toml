@@ -1,0 +1,14 @@
+[package]
+name = "barck"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+crossterm = { version = "0.28.1", features = ["event-stream"] }
+ratatui = "0.28.1"
+ractor = "0.12.3"
+surrealdb = { version = "2.0.4", features = ["kv-mem", "kv-rocksdb"] }
+clap = { version = "4.5.20", features = ["derive"] }
+tokio = { version = "1.40.0", features = ["rt", "macros", "io-std"] }
+async-trait = "0.1.83"
+futures-util = "0.3.31"
