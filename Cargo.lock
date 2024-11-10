@@ -392,11 +392,10 @@ dependencies = [
 name = "barck"
 version = "0.1.0"
 dependencies = [
- "async-trait",
  "clap",
  "crossterm",
  "futures-util",
- "ractor",
+ "kameo",
  "ratatui",
  "surrealdb",
  "tokio",
@@ -999,20 +998,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "dashmap"
-version = "6.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5041cc499144891f3790297212f32a74fb938e5136a14943f338ef9e0ae276cf"
-dependencies = [
- "cfg-if",
- "crossbeam-utils",
- "hashbrown 0.14.5",
- "lock_api",
- "once_cell",
- "parking_lot_core",
-]
-
-[[package]]
 name = "data-encoding"
 version = "2.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1080,6 +1065,12 @@ name = "doc-comment"
 version = "0.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fea41bba32d969b513997752735605054bc0dfa92b4c56bf1189f2e174be7a10"
+
+[[package]]
+name = "dyn-clone"
+version = "1.0.17"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0d6ef0072f8a535281e4876be788938b528e9a1d43900b82c2569af7da799125"
 
 [[package]]
 name = "earcutr"
@@ -1816,6 +1807,36 @@ dependencies = [
  "serde",
  "serde_json",
  "simple_asn1",
+]
+
+[[package]]
+name = "kameo"
+version = "0.12.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "94449a0728ce1ec7345496588007bec699c4b52c525159ede8830a6fc14dd4fa"
+dependencies = [
+ "dyn-clone",
+ "futures",
+ "itertools 0.13.0",
+ "kameo_macros",
+ "once_cell",
+ "serde",
+ "tokio",
+ "tokio-stream",
+ "tracing",
+]
+
+[[package]]
+name = "kameo_macros"
+version = "0.12.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ddec4971b183c643aa91d83f85effe39c7d27b2914a54b06a979cd87b13a79b7"
+dependencies = [
+ "heck 0.5.0",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.80",
+ "uuid",
 ]
 
 [[package]]
@@ -2652,21 +2673,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b5b9d34b8991d19d98081b46eacdd8eb58c6f2b201139f7c5f643cc155a633af"
 dependencies = [
  "proc-macro2",
-]
-
-[[package]]
-name = "ractor"
-version = "0.12.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5e780e8876d6207aeed3c7a16f3022d290fc42f509ee413151196c6b66f577bc"
-dependencies = [
- "async-trait",
- "dashmap 6.1.0",
- "futures",
- "once_cell",
- "strum",
- "tokio",
- "tracing",
 ]
 
 [[package]]
@@ -3642,7 +3648,7 @@ dependencies = [
  "cedar-policy",
  "chrono",
  "ciborium",
- "dashmap 5.5.3",
+ "dashmap",
  "deunicode",
  "dmp",
  "echodb",
@@ -3920,6 +3926,17 @@ checksum = "0c7bc40d0e5a97695bb96e27995cd3a08538541b0a846f65bba7a359f36700d4"
 dependencies = [
  "rustls",
  "rustls-pki-types",
+ "tokio",
+]
+
+[[package]]
+name = "tokio-stream"
+version = "0.1.16"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4f4e6ce100d0eb49a2734f8c0812bcd324cf357d21810932c5df6b96ef2b86f1"
+dependencies = [
+ "futures-core",
+ "pin-project-lite",
  "tokio",
 ]
 

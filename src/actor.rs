@@ -1,5 +1,3 @@
-mod crossterm;
-mod ratatui;
+pub mod crossterm;
 
 pub use crossterm::CrossTerm;
-pub use ratatui::Ratatui;
