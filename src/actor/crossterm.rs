@@ -2,7 +2,7 @@ use std::io::stdout;
 use crossterm::{
     execute,
     event::{
-        EventStream, KeyEvent, KeyModifiers,
+        EventStream, KeyEvent, KeyModifiers, KeyCode,
         KeyCode::Char, Event::Key,
     },
     terminal::{enable_raw_mode, EnterAlternateScreen, disable_raw_mode, LeaveAlternateScreen},
@@ -61,6 +61,7 @@ impl Actor for CrossTerm {
     }
 
     async fn on_stop(self, actor_ref: WeakActorRef<Self>, _reason: ActorStopReason) -> Result<(), BoxError> {
+        std::thread::sleep(std::time::Duration::from_millis(10));
         self.exit();
         Ok(())
     }
@@ -69,16 +70,20 @@ impl Actor for CrossTerm {
 pub struct Read();
 
 impl Message<Read> for CrossTerm {
-    type Reply = Event;
+    type Reply = Option<Event>;
 
     async fn handle(&mut self, msg: Read, ctx: Context<'_, Self, Self::Reply>) -> Self::Reply {
         let event = self.stream.next().await.unwrap().unwrap();
-        if let Key(KeyEvent {code: Char('c'), modifiers: KeyModifiers::CONTROL, kind: _p, state: _s}) = event {
-            ctx.actor_ref().kill();
+        match event {
+            Key(KeyEvent {code: Char('c'), modifiers: KeyModifiers::CONTROL, kind: _, state: _}) | Key(KeyEvent { code: KeyCode::Esc, modifiers: _, kind: _, state: _ }) => {
+                ctx.actor_ref().kill();
+                None
+            },
+            _ => {
+                ctx.actor_ref().tell(Read()).send().await.unwrap();
+                println!("{event:?}");
+                Some(Event(event))
+            }
         }
-
-        ctx.actor_ref().tell(Read()).send().await.unwrap();
-        println!("{event:?}");
-        Event(event)
     }
 }
